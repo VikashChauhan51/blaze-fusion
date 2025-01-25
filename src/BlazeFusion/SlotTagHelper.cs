@@ -22,7 +22,7 @@ public sealed class SlotTagHelper : TagHelper
 
         if (slotContext == null)
         {
-            throw new InvalidOperationException("Cannot use slot without hydro tag helper as a parent");
+            throw new InvalidOperationException("Cannot use slot without blaze tag helper as a parent");
         }
 
         var childTagHelperContent = await output.GetChildContentAsync();

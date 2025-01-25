@@ -29,16 +29,16 @@ internal static class PropertyInjector
         }
 
         var viewComponentType = typeof(TagHelper);
-        var hydroComponentType = typeof(BlazeComponent);
+        var blazeComponentType = typeof(BlazeComponent);
 
         var baseProps = new[] { "Key", "IsModelTouched", "TouchedProperties" };
 
         var propertyInfos = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(p => (baseProps.Contains(p.Name) && p.DeclaringType == hydroComponentType)
-                        || (p.DeclaringType != viewComponentType && p.DeclaringType != hydroComponentType
+            .Where(p => (baseProps.Contains(p.Name) && p.DeclaringType == blazeComponentType)
+                        || (p.DeclaringType != viewComponentType && p.DeclaringType != blazeComponentType
                             && p.GetGetMethod()?.IsPublic == true
                             && p.GetSetMethod()?.IsPublic == true
-                            && !p.GetCustomAttributes<TransientAttribute>().Any())
+                            && !p.GetCustomAttributes<IgnoreAttribute>().Any())
             )
             .ToArray();
 

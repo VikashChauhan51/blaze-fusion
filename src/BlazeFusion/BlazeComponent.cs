@@ -95,7 +95,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     /// <summary>
     /// Determines if the current execution is related to the component mounting
     /// </summary>
-    [Transient]
+    [Ignore]
     [HtmlAttributeNotBound]
     public bool IsMount { get; set; }
 

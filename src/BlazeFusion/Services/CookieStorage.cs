@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace BlazeFusion.Services;
 
@@ -27,7 +27,7 @@ public class CookieStorage
                     ? _persistentState.Decompress(storage)
                     : storage;
 
-                return JsonConvert.DeserializeObject<T>(json);
+                return JsonSerializer.Deserialize<T>(json);
             }
         }
         catch
@@ -43,13 +43,6 @@ public class CookieStorage
     /// </summary>
     public static TimeSpan DefaultExpirationTime = TimeSpan.FromDays(30);
 
-    /// <summary>
-    /// Customizable default JsonSerializerSettings used for complex objects
-    /// </summary>
-    public static JsonSerializerSettings JsonSettings = new()
-    {
-        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-    };
 
     internal CookieStorage(HttpContext httpContext, IPersistentState persistentState)
     {
@@ -79,7 +72,7 @@ public class CookieStorage
 
         if (value != null)
         {
-            var serializedValue = JsonConvert.SerializeObject(value, JsonSettings);
+            var serializedValue = JsonSerializer.Serialize(value, JsonSettings.SerializerSettings);
             var finalValue = encryption
                 ? _persistentState.Compress(serializedValue)
                 : serializedValue;

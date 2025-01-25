@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using BlazeFusion.Converters;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace BlazeFusion;
 internal static class JsonSettings
 {
-    public static readonly JsonSerializerSettings SerializerSettings = new()
+    public static readonly JsonSerializerOptions SerializerSettings = new()
     {
-        Converters = new JsonConverter[] { new Int32Converter() }.ToList(),
-        NullValueHandling = NullValueHandling.Ignore,
-        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 }

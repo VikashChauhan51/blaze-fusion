@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Newtonsoft.Json;
 using System.Linq.Expressions;
+using System.Text.Json;
 using static BlazeFusion.ExpressionExtensions;
 
 namespace BlazeFusion.TagHelpers;
@@ -151,7 +151,7 @@ public sealed class BlazeOnTagHelper : TagHelper
             subject = subject
         };
 
-        var invokeJson = JsonConvert.SerializeObject(invokeData, JsonSettings.SerializerSettings);
+        var invokeJson = JsonSerializer.Serialize(invokeData, JsonSettings.SerializerSettings);
         var invokeJsObject = DecodeJsExpressionsInJson(invokeJson);
 
         return $"dispatch($event, {invokeJsObject})";
@@ -177,7 +177,7 @@ public sealed class BlazeOnTagHelper : TagHelper
             return null;
         }
 
-        var invokeJson = JsonConvert.SerializeObject(new
+        var invokeJson = JsonSerializer.Serialize(new
         {
             eventData.Value.Name,
             eventData.Value.Parameters

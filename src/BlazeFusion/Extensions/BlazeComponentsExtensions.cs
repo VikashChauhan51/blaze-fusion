@@ -1,5 +1,4 @@
 ﻿using BlazeFusion.Configuration;
-using BlazeFusion.Converters;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Html;
@@ -7,17 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System.Net.Mime;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace BlazeFusion;
 internal static class BlazeComponentsExtensions
 {
-    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
-    {
-        Converters = new JsonConverter[] { new Int32Converter() }.ToList()
-    };
 
     public static void MapBlazeComponent(this IEndpointRouteBuilder app, Type componentType)
     {
@@ -80,9 +75,9 @@ internal static class BlazeComponentsExtensions
 
         var model = BlazeData["__blaze_model"].First();
         var type = BlazeData["__blaze_type"].First();
-        var parameters = JsonConvert.DeserializeObject<Dictionary<string, object>>(BlazeData["__blaze_parameters"].FirstOrDefault("{}"), JsonSerializerSettings);
-        var eventData = JsonConvert.DeserializeObject<BlazeEventPayload>(BlazeData["__blaze_event"].FirstOrDefault(string.Empty));
-        var componentIds = JsonConvert.DeserializeObject<string[]>(BlazeData["__blaze_componentIds"].FirstOrDefault("[]"));
+        var parameters = JsonSerializer.Deserialize<Dictionary<string, object>>(BlazeData["__blaze_parameters"].FirstOrDefault("{}"), JsonSettings.SerializerSettings);
+        var eventData = JsonSerializer.Deserialize<BlazeEventPayload>(BlazeData["__blaze_event"].FirstOrDefault(string.Empty));
+        var componentIds = JsonSerializer.Deserialize<string[]>(BlazeData["__blaze_componentIds"].FirstOrDefault("[]"));
         var form = new FormCollection(formValues, BlazeData.Files);
 
         context.Items.Add(BlazeConsts.ContextItems.RenderedComponentIds, componentIds);

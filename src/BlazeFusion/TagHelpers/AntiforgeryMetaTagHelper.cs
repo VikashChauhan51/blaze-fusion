@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using System.Web;
-using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using BlazeFusion.Configuration;
+using System.Text.Json;
 
 namespace BlazeFusion.TagHelpers;
  
@@ -31,7 +30,7 @@ public sealed class BlazeConfigMetaTagHelper : TagHelper
     {
         var BlazeOptions = ViewContext.HttpContext.RequestServices.GetService<BlazeOptions>();
 
-        var config = JsonConvert.SerializeObject(GetConfig(BlazeOptions));
+        var config = JsonSerializer.Serialize(GetConfig(BlazeOptions));
 
         output.Attributes.RemoveAll("content");
 

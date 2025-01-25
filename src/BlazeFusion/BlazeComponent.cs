@@ -1,9 +1,13 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Json;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using BlazeFusion.Configuration;
 using BlazeFusion.Services;
 using HtmlAgilityPack;
@@ -19,7 +23,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
 
 namespace BlazeFusion;
 
@@ -46,12 +49,6 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     private static readonly MethodInfo InvokeActionMethod = typeof(BlazeComponent).GetMethod(nameof(InvokeAction), BindingFlags.Static | BindingFlags.NonPublic);
     private static readonly MethodInfo InvokeActionAsyncMethod = typeof(BlazeComponent).GetMethod(nameof(InvokeActionAsync), BindingFlags.Static | BindingFlags.NonPublic);
 
-    internal static readonly JsonSerializerSettings JsonSerializerSettings = new()
-    {
-        Converters = new JsonConverter[] { new Converters.Int32Converter() }.ToList(),
-        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-    };
-
     private static readonly ConcurrentDictionary<Type, IBlazeAuthorizationFilter[]> ComponentAuthorizationAttributes = new();
     private BlazeOptions _options;
     private ILogger<BlazeComponent> _logger;
@@ -66,13 +63,11 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     /// <summary>
     /// Provides component's key value
     /// </summary>
-    [JsonProperty]
     public string Key { get; set; }
 
     /// <summary>
     /// Component's HTML behavior when the key changes
     /// </summary>
-    [JsonProperty]
     public KeyBehavior KeyBehavior { get; set; }
 
     /// <summary>
@@ -795,7 +790,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
         scriptNode.SetAttributeValue("type", "text/Blaze");
         scriptNode.SetAttributeValue("Blaze-event", "true");
         scriptNode.SetAttributeValue("x-data", "");
-        scriptNode.SetAttributeValue("x-on-Blaze-event", JsonConvert.SerializeObject(eventData, JsonSerializerSettings));
+        scriptNode.SetAttributeValue("x-on-Blaze-event", JsonSerializer.Serialize(eventData, JsonSettings.SerializerSettings));
         return scriptNode;
     }
 
@@ -840,7 +835,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
             })
             .ToList();
 
-        return JsonConvert.SerializeObject(data, JsonSerializerSettings);
+        return JsonSerializer.Serialize(data, JsonSettings.SerializerSettings);
     }
 
     private void PopulateClientScripts()
@@ -961,7 +956,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     /// <returns>Payload</returns>
     public T GetPayload<T>() =>
         HttpContext.Request.Headers.TryGetValue(BlazeConsts.RequestHeaders.Payload, out var payloadString)
-            ? JsonConvert.DeserializeObject<T>(payloadString)
+            ? JsonSerializer.Deserialize<T>(payloadString)
             : default;
 
     private async Task TriggerEvent()
@@ -1022,7 +1017,16 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
         if (HttpContext.Items.TryGetValue(BlazeConsts.ContextItems.BaseModel, out var baseModel))
         {
             var unprotect = persistentState.Decompress((string)baseModel);
-            JsonConvert.PopulateObject(unprotect, this);
+            using var jsonDoc = JsonDocument.Parse(unprotect);
+            var json = jsonDoc.RootElement;
+            foreach (var jsonProperty in json.EnumerateObject())
+            {
+                var property = GetType().GetProperty(jsonProperty.Name);
+                if (property is { CanWrite: true })
+                {
+                    property.SetValue(this, jsonProperty.Value.Deserialize(property.PropertyType));
+                }
+            }
         }
     }
 
@@ -1126,8 +1130,8 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
             {
                 try
                 {
-                    var json = JsonConvert.SerializeObject(sourceProperty.GetValue(source), JsonSerializerSettings);
-                    sourceValue = JsonConvert.DeserializeObject(json, targetProperty.PropertyType);
+                    var json = JsonSerializer.Serialize(sourceProperty.GetValue(source), JsonSettings.SerializerSettings);
+                    sourceValue = JsonSerializer.Deserialize(json, targetProperty.PropertyType);
                 }
                 catch
                 {

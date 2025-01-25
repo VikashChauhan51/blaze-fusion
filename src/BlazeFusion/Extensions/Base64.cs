@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 using System.Text;
 
 namespace BlazeFusion;
@@ -11,7 +11,7 @@ internal static class Base64
             return null;
         }
 
-        var json = JsonConvert.SerializeObject(input, BlazeComponent.JsonSerializerSettings);
+        var json = JsonSerializer.Serialize(input, JsonSettings.SerializerSettings);
         var bytes = Encoding.UTF8.GetBytes(json);
         return Convert.ToBase64String(bytes);
     }
@@ -25,6 +25,6 @@ internal static class Base64
 
         var bytes = Convert.FromBase64String(input);
         var json = Encoding.UTF8.GetString(bytes);
-        return JsonConvert.DeserializeObject(json, outputType);
+        return JsonSerializer.Deserialize(json, outputType);
     }
 }

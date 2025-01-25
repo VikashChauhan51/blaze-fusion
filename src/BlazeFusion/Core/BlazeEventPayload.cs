@@ -1,4 +1,5 @@
 ﻿namespace BlazeFusion;
+ 
 internal class BlazeEventPayload
 {
     public string Name { get; set; }

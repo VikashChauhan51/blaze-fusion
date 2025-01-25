@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Authors>Vikash Chauhan</Authors>
+	  <Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
+	  <Description>BlazeFusion</Description>
+	  <Copyright>Copyright (c) Vikash Chauhan</Copyright>
+	  <PackageProjectUrl>https://github.com/VikashChauhan51/blaze-fusion</PackageProjectUrl>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/VikashChauhan51/blaze-fusion.git</RepositoryUrl>
+	  <RepositoryType>GIT</RepositoryType>
+	  <PackageTags>ASP.NET Core BlazeFusion Components</PackageTags>
+	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <RootNamespace>BlazeFusion</RootNamespace>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Scripts\blaze.js" Pack="true" PackagePath="scripts" />
+		<EmbeddedResource Include="Scripts\AlpineJs\*.js" Pack="true" PackagePath="scripts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+</Project>

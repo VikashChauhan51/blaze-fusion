@@ -1,42 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-	  <ImplicitUsings>enable</ImplicitUsings>
-	  <VersionPrefix>0.0.0.1</VersionPrefix>
-	  <Authors>Vikash Chauhan</Authors>
-	  <Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
-	  <Description>BlazeFusion</Description>
-	  <Copyright>Copyright (c) Vikash Chauhan</Copyright>
-	  <PackageProjectUrl>https://github.com/VikashChauhan51/blaze-fusion</PackageProjectUrl>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <RepositoryUrl>https://github.com/VikashChauhan51/blaze-fusion.git</RepositoryUrl>
-	  <RepositoryType>GIT</RepositoryType>
-	  <PackageTags>ASP.NET Core BlazeFusion Components</PackageTags>
-	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	  <RootNamespace>BlazeFusion</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<VersionPrefix>0.0.0.2</VersionPrefix>
+		<Authors>Vikash Chauhan</Authors>
+		<Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
+		<Description>BlazeFusion</Description>
+		<Copyright>Copyright (c) Vikash Chauhan</Copyright>
+		<PackageProjectUrl>https://github.com/VikashChauhan51/blaze-fusion</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/VikashChauhan51/blaze-fusion.git</RepositoryUrl>
+		<RepositoryType>GIT</RepositoryType>
+		<PackageTags>ASP.NET Core BlazeFusion Components</PackageTags>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<AssemblyOriginatorKeyFile>..\BlazeFusion.snk</AssemblyOriginatorKeyFile>
+		<RootNamespace>BlazeFusion</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Scripts\AlpineJs\alpinejs-combined.min.js" />
-    <None Remove="Scripts\AlpineJs\alpinejs-LICENSE" />
-    <None Remove="Scripts\blaze.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Scripts\AlpineJs\alpinejs-combined.min.js" />
+		<None Remove="Scripts\AlpineJs\alpinejs-LICENSE" />
+		<None Remove="Scripts\blaze.js" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\AlpineJs\alpinejs-combined.min.js" Pack="true" PackagePath="scripts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\AlpineJs\alpinejs-LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\blaze.js" Pack="true" PackagePath="scripts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Scripts\AlpineJs\alpinejs-combined.min.js" Pack="true" PackagePath="scripts" />
+		<EmbeddedResource Include="Scripts\AlpineJs\alpinejs-LICENSE" />
+		<EmbeddedResource Include="Scripts\blaze.js" Pack="true" PackagePath="scripts" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -48,10 +44,10 @@
 
 
 	<ItemGroup>
-	  <None Include="..\..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 </Project>

@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeFusion", "BlazeFusion\BlazeFusion.csproj", "{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeFusion.App", "BlazeFusion.App\BlazeFusion.App.csproj", "{43AC1D8B-CE12-49A7-A65D-A306D1125BF0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43AC1D8B-CE12-49A7-A65D-A306D1125BF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43AC1D8B-CE12-49A7-A65D-A306D1125BF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43AC1D8B-CE12-49A7-A65D-A306D1125BF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43AC1D8B-CE12-49A7-A65D-A306D1125BF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

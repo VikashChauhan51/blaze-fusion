@@ -17,9 +17,9 @@ internal class ScriptsFileProvider : IFileProvider
     public IFileInfo GetFileInfo(string subpath) =>
         _embeddedFileProvider.GetFileInfo(subpath switch
         {
-            "/blaze.js" => "BlazeFusion.Scripts.blaze.js",
-            "/blaze/blaze.js" => "BlazeFusion.Scripts.blaze.js",
-            "/blaze/alpine.js" => "BlazeFusion.Scripts.AlpineJs.alpinejs-combined.min.js",
+            "/blaze.js" => "/Scripts/blaze.js",
+            "/blaze/blaze.js" => "/Scripts/blaze.js",
+            "/blaze/alpine.js" => "/Scripts/AlpineJs/alpinejs-combined.min.js",
             _ => subpath
         });
 

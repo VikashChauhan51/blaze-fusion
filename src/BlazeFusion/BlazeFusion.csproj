@@ -19,6 +19,24 @@
 	  <RootNamespace>BlazeFusion</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Scripts\AlpineJs\alpinejs-combined.min.js" />
+    <None Remove="Scripts\AlpineJs\alpinejs-LICENSE" />
+    <None Remove="Scripts\blaze.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\AlpineJs\alpinejs-combined.min.js" Pack="true" PackagePath="scripts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\AlpineJs\alpinejs-LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\blaze.js" Pack="true" PackagePath="scripts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
@@ -27,10 +45,6 @@
 		<PackageReference Include="HtmlAgilityPack" Version="1.11.50" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Scripts\blaze.js" Pack="true" PackagePath="scripts" />
-		<EmbeddedResource Include="Scripts\AlpineJs\*.js" Pack="true" PackagePath="scripts" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="..\..\README.md">

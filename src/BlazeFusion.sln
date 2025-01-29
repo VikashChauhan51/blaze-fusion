@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeFusion", "BlazeFusion\BlazeFusion.csproj", "{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazeFusion.Sample", "BlazeFusion.Sample\BlazeFusion.Sample.csproj", "{B13A5B46-CC11-4476-A21C-E3A7E21549CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDEE2584-200A-4FC9-AB71-149D7E75BCA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13A5B46-CC11-4476-A21C-E3A7E21549CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13A5B46-CC11-4476-A21C-E3A7E21549CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13A5B46-CC11-4476-A21C-E3A7E21549CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13A5B46-CC11-4476-A21C-E3A7E21549CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

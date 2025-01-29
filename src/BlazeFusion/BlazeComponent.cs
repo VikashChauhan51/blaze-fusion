@@ -573,7 +573,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     }
 
     private static string GetComponentPlaceholderTemplate(string componentId) =>
-        $"<div id=\"{componentId}\" key=\"{componentId}\" Blaze Blaze-placeholder></div>";
+        $"<div id=\"{componentId}\" key=\"{componentId}\" blaze blaze-placeholder></div>";
 
     private async Task<string> RenderStaticComponent(IPersistentState persistentState)
     {
@@ -621,11 +621,11 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
         var rootElement = root.ChildNodes.First(n => n.NodeType == HtmlNodeType.Element);
 
         rootElement.SetAttributeValue("id", componentId);
-        rootElement.SetAttributeValue("Blaze-name", GetType().Name);
-        rootElement.SetAttributeValue("x-data", "Blaze");
+        rootElement.SetAttributeValue("blaze-name", GetType().Name);
+        rootElement.SetAttributeValue("x-data", "blaze");
         rootElement.SetAttributeValue("key", componentId);
 
-        var BlazeAttribute = rootElement.SetAttributeValue("Blaze", null);
+        var BlazeAttribute = rootElement.SetAttributeValue("blaze", null);
         BlazeAttribute.QuoteType = AttributeValueQuote.WithoutValue;
 
         if (Polls.TryGetValue(GetType(), out var polls))
@@ -768,7 +768,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     private HtmlNode GetModelScript(HtmlDocument document, string id, IPersistentState persistentState)
     {
         var scriptNode = document.CreateElement("script");
-        scriptNode.SetAttributeValue("type", "text/Blaze");
+        scriptNode.SetAttributeValue("type", "text/blaze");
         scriptNode.SetAttributeValue("data-id", id);
         var serializeDeclaredProperties = PropertyInjector.SerializeDeclaredProperties(GetType(), this);
         var model = persistentState.Compress(serializeDeclaredProperties);
@@ -782,31 +782,31 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
         {
             name = subscription.EventName,
             subject = subscription.SubjectRetriever?.Invoke(),
-            path = $"/Blaze/{GetType().Name}/event".ToLower()
+            path = $"/blaze/{GetType().Name}/event".ToLower()
         };
 
         var scriptNode = document.CreateElement("script");
         scriptNode.SetAttributeValue("key", $"R{Guid.NewGuid():N}");
-        scriptNode.SetAttributeValue("type", "text/Blaze");
-        scriptNode.SetAttributeValue("Blaze-event", "true");
+        scriptNode.SetAttributeValue("type", "text/blaze");
+        scriptNode.SetAttributeValue("blaze-event", "true");
         scriptNode.SetAttributeValue("x-data", "");
-        scriptNode.SetAttributeValue("x-on-Blaze-event", JsonSerializer.Serialize(eventData, JsonSettings.SerializerSettings));
+        scriptNode.SetAttributeValue("x-on-blaze-event", JsonSerializer.Serialize(eventData, JsonSettings.SerializerSettings));
         return scriptNode;
     }
 
     private HtmlNode GetPollScript(HtmlDocument document, BlazePoll poll, int index)
     {
         var scriptNode = document.CreateElement("script");
-        scriptNode.SetAttributeValue($"x-Blaze-polling.{poll.Interval.TotalMilliseconds}ms._{index}", poll.Action);
-        scriptNode.SetAttributeValue("type", "text/Blaze");
+        scriptNode.SetAttributeValue($"x-blaze-polling.{poll.Interval.TotalMilliseconds}ms._{index}", poll.Action);
+        scriptNode.SetAttributeValue("type", "text/blaze");
         return scriptNode;
     }
 
     private HtmlNode GetClientScript(HtmlDocument document, string script)
     {
         var scriptNode = document.CreateElement("script");
-        scriptNode.SetAttributeValue("Blaze-js", "true");
-        scriptNode.SetAttributeValue("Blaze-id", _componentId);
+        scriptNode.SetAttributeValue("blaze-js", "true");
+        scriptNode.SetAttributeValue("blaze-id", _componentId);
         scriptNode.SetAttributeValue("type", "text/javascript");
         scriptNode.InnerHtml = $"Blaze.executeComponentJs('{_componentId}', function() {{ {script} }});";
         return scriptNode;

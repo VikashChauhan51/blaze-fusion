@@ -76,7 +76,7 @@ internal static class BlazeComponentsExtensions
         var model = BlazeData["__blaze_model"].First();
         var type = BlazeData["__blaze_type"].First();
         var parameters = JsonSerializer.Deserialize<Dictionary<string, object>>(BlazeData["__blaze_parameters"].FirstOrDefault("{}"));
-        var eventData = JsonSerializer.Deserialize<BlazeEventPayload>(BlazeData["__blaze_event"].FirstOrDefault(string.Empty));
+        var eventData = JsonSerializer.Deserialize<BlazeEventPayload>(BlazeData["__blaze_event"].FirstOrDefault("{}"));
         var componentIds = JsonSerializer.Deserialize<string[]>(BlazeData["__blaze_componentIds"].FirstOrDefault("[]"));
         var form = new FormCollection(formValues, BlazeData.Files);
 
@@ -84,7 +84,7 @@ internal static class BlazeComponentsExtensions
         context.Items.Add(BlazeConsts.ContextItems.BaseModel, model);
         context.Items.Add(BlazeConsts.ContextItems.Parameters, parameters);
 
-        if (eventData != null)
+        if (eventData != null && eventData.Name != null)
         {
             context.Items.Add(BlazeConsts.ContextItems.EventName, eventData.Name);
             context.Items.Add(BlazeConsts.ContextItems.EventData, eventData.Data);

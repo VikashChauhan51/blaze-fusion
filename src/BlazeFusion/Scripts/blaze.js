@@ -62,8 +62,8 @@
 
     try {
       let headers = {
-        'blaze-Request': 'true',
-        'blaze-Boosted': 'true'
+        'Blaze-Request': 'true',
+        'Blaze-Boosted': 'true'
       };
 
       if (payload) {
@@ -342,7 +342,7 @@
     await enqueueblazePromise(componentId, async () => {
       try {
         let headers = {
-          'blaze-Request': 'true'
+          'Blaze-Request': 'true'
         };
 
         if (config.Antiforgery) {
@@ -488,7 +488,7 @@
             });
           }
 
-          const scripts = response.headers.get('blaze-js');
+          const scripts = response.headers.get('Blaze-Js');
           if (scripts) {
             setTimeout(() => appendComponentScripts(component, fromBase64Json(scripts)));
           }

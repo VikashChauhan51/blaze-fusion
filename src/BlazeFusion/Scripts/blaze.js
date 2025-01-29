@@ -34,7 +34,7 @@
 
   function appendComponentScripts(component, scripts) {
     scripts.forEach(script => {
-      const scriptTag = createScriptTag(`blaze.executeComponentJs('${component.id}', function() { ${script} })`, null, true);
+      const scriptTag = createScriptTag(`Blaze.executeComponentJs('${component.id}', function() { ${script} })`, null, true);
       document.body.appendChild(scriptTag);
     });
   }
@@ -67,7 +67,7 @@
       };
 
       if (payload) {
-        headers['blaze-Payload'] = JSON.stringify(payload);
+        headers['Blaze-Payload'] = JSON.stringify(payload);
       }
 
       const response = await fetch(url, {
@@ -84,17 +84,17 @@
           message: "Problem with loading the content",
           data: null
         }
-        document.dispatchEvent(new CustomEvent(`global:UnhandledblazeError`, { detail: { data: toBase64Json(eventDetail) } }));
+        document.dispatchEvent(new CustomEvent(`global:UnhandledBlazeError`, { detail: { data: toBase64Json(eventDetail) } }));
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
         const data = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(data, 'text/html');
-        const selector = response.headers.get('blaze-Location-Target') || 'body'
+        const selector = response.headers.get('Blaze-Location-Target') || 'body'
         const newContent = doc.querySelector(selector);
         const html = newContent ? newContent.innerHTML : data;
 
-        let newTitle = response.headers.get('blaze-Location-Title') || doc.querySelector('head>title')?.textContent;
+        let newTitle = response.headers.get('Blaze-Location-Title') || doc.querySelector('head>title')?.textContent;
         const element = document.querySelector(selector);
         element.innerHTML = html;
 
@@ -116,7 +116,7 @@
 
         enablePlainScripts(element);
 
-        document.dispatchEvent(new CustomEvent('blazeLocation', {
+        document.dispatchEvent(new CustomEvent('BlazeLocation', {
           detail: { url, selector, push, payload }
         }));
       }
@@ -214,7 +214,7 @@
     const component = findComponent(el);
 
     if (!component) {
-      throw new Error('Cannot find blaze component');
+      throw new Error('Cannot find Blaze component');
     }
 
     const url = `/blaze/${component.name}`;
@@ -309,7 +309,7 @@
     const componentName = component.getAttribute("blaze-name");
 
     if (!component) {
-      throw new Error('Cannot determine the closest blaze component');
+      throw new Error('Cannot determine the closest Blaze component');
     }
 
     const parentComponent = findComponent(component.parentElement);
@@ -370,7 +370,7 @@
         requestForm.append('__blaze_model', scriptTag.textContent);
 
         if (operationId) {
-          headers['blaze-Operation-Id'] = operationId;
+          headers['Blaze-Operation-Id'] = operationId;
         }
 
         if (type === 'bind') {
@@ -389,7 +389,7 @@
             config.Antiforgery.Token = json.token;
           } else if (response.status === 403) {
             if (type !== 'event') {
-              document.dispatchEvent(new CustomEvent(`global:UnhandledblazeError`, { detail: { data: toBase64Json({ message: "Unauthorized access" }) } }));
+              document.dispatchEvent(new CustomEvent(`global:UnhandledBlazeError`, { detail: { data: toBase64Json({ message: "Unauthorized access" }) } }));
             }
             throw new Error(`HTTP error! status: ${response.status}`);
           } else {
@@ -409,13 +409,13 @@
             }
 
             if (type !== 'event') {
-              document.dispatchEvent(new CustomEvent(`global:UnhandledblazeError`, { detail: { data: toBase64Json(eventDetail) } }));
+              document.dispatchEvent(new CustomEvent(`global:UnhandledBlazeError`, { detail: { data: toBase64Json(eventDetail) } }));
               document.dispatchEvent(new CustomEvent(`unhandled-blaze-error`, { detail: eventDetail }));
             }
             throw new Error(`HTTP error! status: ${response.status}`);
           }
         } else {
-          const skipOutputHeader = response.headers.get('blaze-Skip-Output');
+          const skipOutputHeader = response.headers.get('Blaze-Skip-Output');
 
           if (!skipOutputHeader) {
             const responseData = await response.text();
@@ -482,7 +482,7 @@
 
             setTimeout(() => {
               enablePlainScripts(component);
-              document.dispatchEvent(new CustomEvent('blazeComponentUpdate', {
+              document.dispatchEvent(new CustomEvent('BlazeComponentUpdate', {
                 detail: { component: { id: componentId, name: componentName, element: component }, url, type }
               }));
             });
@@ -493,13 +493,13 @@
             setTimeout(() => appendComponentScripts(component, fromBase64Json(scripts)));
           }
 
-          const locationHeader = response.headers.get('blaze-Location');
+          const locationHeader = response.headers.get('Blaze-Location');
           if (locationHeader) {
             let locationData = JSON.parse(locationHeader);
             await loadPageContent(locationData.path, true, null, locationData.payload);
           }
 
-          const redirectHeader = response.headers.get('blaze-Redirect');
+          const redirectHeader = response.headers.get('Blaze-Redirect');
           if (redirectHeader) {
             window.location.href = redirectHeader;
           }
@@ -524,7 +524,7 @@
             }
           }
 
-          dispatchEvents(response.headers.get('blaze-Trigger'), component);
+          dispatchEvents(response.headers.get('Blaze-Trigger'), component);
         }
       } catch (error) {
         document.dispatchEvent(new CustomEvent(`unhandled-blaze-error`, { detail: { name: error.name, message: error.message } }));
@@ -690,15 +690,15 @@ document.addEventListener('alpine:init', () => {
         return;
       }
 
-      const component = window.blaze.findComponent(el);
+      const component = window.Blaze.findComponent(el);
 
       if (!component) {
-        throw new Error("Cannot find blaze component");
+        throw new Error("Cannot find Blaze component");
       }
 
       const eventName = el.getAttribute('blaze-event') || 'click';
 
-      const parentComponent = window.blaze.findComponent(component.element.parentElement);
+      const parentComponent = window.Blaze.findComponent(component.element.parentElement);
 
       const trigger = JSON.parse(expression);
 
@@ -715,7 +715,7 @@ document.addEventListener('alpine:init', () => {
 
         event.preventDefault();
 
-        const operationId = window.blaze.generateGuid();
+        const operationId = window.Blaze.generateGuid();
         el.setAttribute("data-operation-id", operationId);
 
         const eventName = `${scope}:${trigger.name}`;
@@ -752,9 +752,9 @@ document.addEventListener('alpine:init', () => {
 
         if (debounce) {
           clearTimeout(timeout);
-          timeout = setTimeout(() => window.blaze.blazeBind(target), debounce || 0);
+          timeout = setTimeout(() => window.Blaze.blazeBind(target), debounce || 0);
         } else {
-          await window.blaze.blazeBind(target);
+          await window.Blaze.blazeBind(target);
         }
       };
 
@@ -768,7 +768,7 @@ document.addEventListener('alpine:init', () => {
   Alpine.directive('blaze-polling', Alpine.skipDuringClone((el, { value, expression, modifiers }, { cleanup }) => {
     let isQueued = false;
     let interval;
-    const component = window.blaze.findComponent(el);
+    const component = window.Blaze.findComponent(el);
     const time = parseInt(modifiers[0].replace('ms', ''));
 
     const setupInterval = () => {
@@ -779,14 +779,14 @@ document.addEventListener('alpine:init', () => {
           return;
         }
 
-        await window.blaze.blazeAction(el, component, { name: expression });
+        await window.Blaze.blazeAction(el, component, { name: expression });
       }, time);
     }
 
     const handleVisibilityChange = async () => {
       if (!document.hidden && isQueued) {
         isQueued = false;
-        await window.blaze.blazeAction(el, component, { name: expression });
+        await window.Blaze.blazeAction(el, component, { name: expression });
         setupInterval();
       }
     }
@@ -803,10 +803,10 @@ document.addEventListener('alpine:init', () => {
 
   Alpine.directive('on-blaze-event', (el, { expression }, { effect, cleanup }) => {
     effect(() => {
-      const component = window.blaze.findComponent(el);
+      const component = window.Blaze.findComponent(el);
 
       if (!component) {
-        throw new Error("Cannot find blaze component");
+        throw new Error("Cannot find Blaze component");
       }
 
       const data = JSON.parse(expression);
@@ -817,7 +817,7 @@ document.addEventListener('alpine:init', () => {
       const eventData = el.getAttribute("x-on-blaze-event")
 
       const eventHandler = async (event) => {
-        await window.blaze.blazeEvent(componentElement, eventData, eventPath, event.detail);
+        await window.Blaze.blazeEvent(componentElement, eventData, eventPath, event.detail);
       }
 
       document.addEventListener(globalEventName, eventHandler);
@@ -841,7 +841,7 @@ document.addEventListener('alpine:init', () => {
         currentBoostUrl = url;
         const classTimeout = setTimeout(() => link.classList.add('blaze-request'), 200);
         try {
-          await window.blaze.loadPageContent(url, true, () => currentBoostUrl === url);
+          await window.Blaze.loadPageContent(url, true, () => currentBoostUrl === url);
         } finally {
           clearTimeout(classTimeout);
           link.classList.remove('blaze-request')
@@ -873,11 +873,11 @@ document.addEventListener('alpine:init', () => {
     return ({
       $component: null,
       init() {
-        const component = window.blaze.findComponent(this.$el);
+        const component = window.Blaze.findComponent(this.$el);
         this.$component = component;
 
-        window.blaze.enableblazeScripts(this.$el);
-        document.dispatchEvent(new CustomEvent('blazeComponentInit', {
+        window.Blaze.enableblazeScripts(this.$el);
+        document.dispatchEvent(new CustomEvent('BlazeComponentInit', {
           detail: { component: component }
         }));
       },
@@ -885,13 +885,13 @@ document.addEventListener('alpine:init', () => {
         if (["click", "submit"].includes(e.type) && ['A', 'BUTTON', 'FORM'].includes(this.$el.tagName)) {
           e.preventDefault();
         }
-        await window.blaze.blazeAction(this.$el, this.$component, action);
+        await window.Blaze.blazeAction(this.$el, this.$component, action);
       },
       async dispatch(e, event) {
         const el = this.$el;
-        const operationId = window.blaze.generateGuid();
+        const operationId = window.Blaze.generateGuid();
         el.setAttribute("data-operation-id", operationId);
-        window.blaze.blazeDispatch(el, event, operationId);
+        window.Blaze.blazeDispatch(el, event, operationId);
       },
       async bind(debounce) {
         let element = this.$el;
@@ -899,7 +899,7 @@ document.addEventListener('alpine:init', () => {
         clearTimeout(debounceArray[element]);
 
         debounceArray[element] = setTimeout(async () => {
-          await window.blaze.blazeBind(element);
+          await window.Blaze.blazeBind(element);
           delete debounceArray[element];
         }, debounce || 0);
       }

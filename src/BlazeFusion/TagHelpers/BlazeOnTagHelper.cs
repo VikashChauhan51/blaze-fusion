@@ -151,7 +151,7 @@ public sealed class BlazeOnTagHelper : TagHelper
             subject = subject
         };
 
-        var invokeJson = JsonSerializer.Serialize(invokeData, JsonSettings.SerializerSettings);
+        var invokeJson = JsonSerializer.Serialize(invokeData, JsonSettings.DefaultSerializerSettings);
         var invokeJsObject = DecodeJsExpressionsInJson(invokeJson);
 
         return $"dispatch($event, {invokeJsObject})";
@@ -181,7 +181,7 @@ public sealed class BlazeOnTagHelper : TagHelper
         {
             eventData.Value.Name,
             eventData.Value.Parameters
-        }, JsonSettings.SerializerSettings);
+        }, JsonSettings.DefaultSerializerSettings);
 
         var invokeJsObject = DecodeJsExpressionsInJson(invokeJson);
 

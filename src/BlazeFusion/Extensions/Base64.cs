@@ -11,7 +11,7 @@ internal static class Base64
             return null;
         }
 
-        var json = JsonSerializer.Serialize(input, JsonSettings.SerializerSettings);
+        var json = JsonSerializer.Serialize(input, JsonSettings.JsonSerializerSettings);
         var bytes = Encoding.UTF8.GetBytes(json);
         return Convert.ToBase64String(bytes);
     }

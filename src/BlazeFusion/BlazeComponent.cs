@@ -790,7 +790,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
         scriptNode.SetAttributeValue("type", "text/blaze");
         scriptNode.SetAttributeValue("blaze-event", "true");
         scriptNode.SetAttributeValue("x-data", "");
-        scriptNode.SetAttributeValue("x-on-blaze-event", JsonSerializer.Serialize(eventData, JsonSettings.SerializerSettings));
+        scriptNode.SetAttributeValue("x-on-blaze-event", JsonSerializer.Serialize(eventData, JsonSettings.JsonSerializerSettings));
         return scriptNode;
     }
 
@@ -835,7 +835,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
             })
             .ToList();
 
-        return JsonSerializer.Serialize(data, JsonSettings.SerializerSettings);
+        return JsonSerializer.Serialize(data, JsonSettings.JsonSerializerSettings);
     }
 
     private void PopulateClientScripts()
@@ -1130,7 +1130,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
             {
                 try
                 {
-                    var json = JsonSerializer.Serialize(sourceProperty.GetValue(source), JsonSettings.SerializerSettings);
+                    var json = JsonSerializer.Serialize(sourceProperty.GetValue(source), JsonSettings.JsonSerializerSettings);
                     sourceValue = JsonSerializer.Deserialize(json, targetProperty.PropertyType);
                 }
                 catch

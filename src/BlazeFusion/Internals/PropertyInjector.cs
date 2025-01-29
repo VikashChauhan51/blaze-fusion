@@ -15,7 +15,7 @@ internal static class PropertyInjector
     public static string SerializeDeclaredProperties(Type type, object instance)
     {
         var regularProperties = GetRegularProperties(type, instance);
-        return JsonSerializer.Serialize(regularProperties, JsonSettings.SerializerSettings);
+        return JsonSerializer.Serialize(regularProperties, JsonSettings.JsonSerializerSettings);
     }
 
     private static IDictionary<string, object> GetRegularProperties(Type type, object instance) =>

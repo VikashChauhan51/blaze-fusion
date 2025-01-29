@@ -75,7 +75,7 @@ internal static class BlazeComponentsExtensions
 
         var model = BlazeData["__blaze_model"].First();
         var type = BlazeData["__blaze_type"].First();
-        var parameters = JsonSerializer.Deserialize<Dictionary<string, object>>(BlazeData["__blaze_parameters"].FirstOrDefault("{}"), JsonSettings.SerializerSettings);
+        var parameters = JsonSerializer.Deserialize<Dictionary<string, object>>(BlazeData["__blaze_parameters"].FirstOrDefault("{}"));
         var eventData = JsonSerializer.Deserialize<BlazeEventPayload>(BlazeData["__blaze_event"].FirstOrDefault(string.Empty));
         var componentIds = JsonSerializer.Deserialize<string[]>(BlazeData["__blaze_componentIds"].FirstOrDefault("[]"));
         var form = new FormCollection(formValues, BlazeData.Files);

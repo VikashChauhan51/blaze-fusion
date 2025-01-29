@@ -72,7 +72,7 @@ public class CookieStorage
 
         if (value != null)
         {
-            var serializedValue = JsonSerializer.Serialize(value, JsonSettings.SerializerSettings);
+            var serializedValue = JsonSerializer.Serialize(value, JsonSettings.JsonSerializerSettings);
             var finalValue = encryption
                 ? _persistentState.Compress(serializedValue)
                 : serializedValue;

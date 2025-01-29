@@ -41,7 +41,7 @@ internal class ComponentResult : IComponentResult
         if (response.Headers.Remove(HeaderNames.Location, out var location))
         {
             response.StatusCode = StatusCodes.Status200OK;
-            //component.Redirect(location); //TODO: pending
+            component.Redirect(location); 
         }
     }
 }

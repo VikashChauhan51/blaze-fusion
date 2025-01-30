@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitepress'
 
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/blaze-fusion/',
   title: "BlazeFusion",
   description: "Create .NET apps with SPA feeling without JS",
   themeConfig: {

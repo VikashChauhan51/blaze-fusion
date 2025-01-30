@@ -3,7 +3,7 @@
 /// <summary>
 /// Blaze options
 /// </summary>
-public class BlazeOptions
+public sealed class BlazeOptions
 {
     private IEnumerable<IBlazeValueMapper> _valueMappers;
 

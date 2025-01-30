@@ -133,8 +133,8 @@ or by calling an extension method:
 ```
 ## External libraries
 
-- [Alpine.js](https://github.com/alpinejs/alpine) libraries MIT licensed.
-- [HtmlAgilityPack ](https://github.com/zzzprojects/html-agility-pack/) libraries MIT licensed.
+- [Alpine.js](https://github.com/alpinejs/alpine) library MIT licensed.
+- [HtmlAgilityPack ](https://github.com/zzzprojects/html-agility-pack/) library MIT licensed.
 
 
 

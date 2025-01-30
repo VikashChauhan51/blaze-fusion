@@ -5,7 +5,7 @@
 /// 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class BlazeValueMapper<T> : IBlazeValueMapper
+public sealed class BlazeValueMapper<T> : IBlazeValueMapper
 {
     private Func<T, Task<T>> MapperAsync { get; set; }
     private Func<T, T> Mapper { get; set; }

@@ -3,7 +3,7 @@
 /// <summary>
 /// Actions that are evaluated on the client side
 /// </summary>
-public class BlazeClientActions
+public sealed class BlazeClientActions
 {
     private readonly BlazeComponent _blazeComponent;
 

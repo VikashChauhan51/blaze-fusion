@@ -1,6 +1,4 @@
-﻿
-
-namespace BlazeFusion;
+﻿namespace BlazeFusion;
  
 internal static class BlazeConsts
 {

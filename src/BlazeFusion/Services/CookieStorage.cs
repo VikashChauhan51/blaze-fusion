@@ -7,7 +7,7 @@ namespace BlazeFusion.Services;
 /// <summary>
 /// Provides a standard implementation for ICookieManager interface, allowing to store/read complex objects in cookies
 /// </summary>
-public class CookieStorage
+public sealed class CookieStorage
 {
     private readonly HttpContext _httpContext;
     private readonly IPersistentState _persistentState;

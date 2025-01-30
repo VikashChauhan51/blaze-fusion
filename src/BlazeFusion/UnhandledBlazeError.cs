@@ -5,4 +5,4 @@
 /// </summary>
 /// <param name="Message">Exception message</param>
 /// <param name="Data">Payload</param>
-public record UnhandledBlazeError(string Message, object Data);
+public sealed record UnhandledBlazeError(string Message, object Data);

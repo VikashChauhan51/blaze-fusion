@@ -4,7 +4,7 @@
 /// Cached value provider
 /// </summary>
 /// <typeparam name="T">Type of cached value</typeparam>
-public class Cache<T>
+public sealed class Cache<T>
 {
     private T _value;
     private readonly Func<T> _valueFunc;

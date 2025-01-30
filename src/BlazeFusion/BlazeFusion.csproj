@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<VersionPrefix>0.0.0.6</VersionPrefix>
+		<VersionPrefix>0.0.0.7</VersionPrefix>
 		<Authors>Vikash Chauhan</Authors>
 		<Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
 		<Description>BlazeFusion</Description>

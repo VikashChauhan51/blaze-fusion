@@ -5,7 +5,7 @@ namespace BlazeFusion;
 /// <summary>
 /// Represents property value in a hierarchy
 /// </summary>
-public class PropertyPath
+public sealed class PropertyPath
 {
     /// <summary>
     /// Property name

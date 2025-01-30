@@ -38,7 +38,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     private IPersistentState _persistentState;
 
     private readonly ConcurrentDictionary<CacheKey, object> _requestCache = new();
-    private static readonly ConcurrentDictionary<CacheKey, object> PersistentCache = new();
+    private static readonly ConcurrentDictionary<CacheKey, object> _persistentCache = new();
 
     private static readonly ConcurrentDictionary<Type, List<BlazePoll>> Polls = new();
 
@@ -90,7 +90,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     /// <summary>
     /// Determines if the current execution is related to the component mounting
     /// </summary>
-    [Ignore]
+    [Transient]
     [HtmlAttributeNotBound]
     public bool IsMount { get; set; }
 
@@ -482,7 +482,7 @@ public abstract class BlazeComponent : TagHelper, IViewContextAware
     /// <returns>Produced value</returns>
     protected Cache<T> Cache<T>(Func<T> func, CacheLifetime lifetime = CacheLifetime.Request)
     {
-        var cache = lifetime == CacheLifetime.Request ? _requestCache : PersistentCache;
+        var cache = lifetime == CacheLifetime.Request ? _requestCache : _persistentCache;
 
         var cacheKey = new CacheKey(_componentId, func);
         if (cache.TryGetValue(cacheKey, out var dic))

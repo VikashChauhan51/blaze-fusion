@@ -2,17 +2,29 @@
 using System.IO.Compression;
 using System.Text;
 
-
 namespace BlazeFusion;
-internal class PersistentState : IPersistentState
+
+/// <summary>
+/// Provides methods to compress and decompress string values, with optional data protection.
+/// </summary>
+internal sealed class PersistentState : IPersistentState
 {
     private readonly IDataProtector _protector;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PersistentState"/> class.
+    /// </summary>
+    /// <param name="provider">The data protection provider.</param>
     public PersistentState(IDataProtectionProvider provider)
     {
         _protector = provider.CreateProtector(nameof(PersistentState));
     }
 
+    /// <summary>
+    /// Compresses the specified string value using Brotli compression.
+    /// </summary>
+    /// <param name="value">The string value to compress.</param>
+    /// <returns>The compressed string, encoded in Base64.</returns>
     public string Compress(string value)
     {
         var inputBytes = Encoding.UTF8.GetBytes(value);
@@ -25,6 +37,12 @@ internal class PersistentState : IPersistentState
         return Convert.ToBase64String(outputStream.ToArray());
     }
 
+    /// <summary>
+    /// Decompresses the specified string value using Brotli decompression.
+    /// If decompression fails, attempts to unprotect the value using data protection.
+    /// </summary>
+    /// <param name="value">The string value to decompress.</param>
+    /// <returns>The decompressed string.</returns>
     public string Decompress(string value)
     {
         try

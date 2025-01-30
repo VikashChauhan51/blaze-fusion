@@ -5,4 +5,4 @@
 /// </summary>
 /// <param name="Name">Property name</param>
 /// <param name="Value">Value to set</param>
-public record BlazeBind(string Name, string Value);
+public sealed record BlazeBind(string Name, string Value);

@@ -8,11 +8,11 @@ hero:
   tagline: Bring stateful and reactive components to ASP.NET Core without writing JavaScript
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get started
+      link: /introduction/getting-started
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Why BlazeFusion
+      link: /introduction/motivation
 
 features:
   - title: Feature A

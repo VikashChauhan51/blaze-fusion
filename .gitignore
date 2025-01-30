@@ -398,3 +398,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# javascript
+/.vscode
+**/.vitepress/cache/
+**/.vitepress/dist/
+**/node_modules/

@@ -131,6 +131,9 @@ or by calling an extension method:
 @await Html.Blaze("Counter")
 ...
 ```
+
+## Documentations
+- [BlazeFusion](https://vikashchauhan51.github.io/blaze-fusion/) documentations.
 ## External libraries
 
 - [Alpine.js](https://github.com/alpinejs/alpine) library MIT licensed.
